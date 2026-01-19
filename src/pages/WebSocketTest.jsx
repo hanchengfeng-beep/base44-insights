@@ -151,6 +151,27 @@ export default function WebSocketTest() {
               </AlertDescription>
             </Alert>
 
+            <Alert className="border-orange-200 bg-orange-50">
+              <XCircle className="h-4 w-4 text-orange-600" />
+              <AlertTitle className="text-orange-800 font-semibold">测试结论</AlertTitle>
+              <AlertDescription className="text-orange-700">
+                <ul className="list-disc pl-5 space-y-2 mt-2">
+                  <li>
+                    <strong>观察结果</strong>: WebSocket 连接能够成功建立（onopen 触发），但<strong className="font-semibold">立即被关闭</strong>，错误代码 1006，原因为 "WebSocket endpoint not found"。
+                  </li>
+                  <li>
+                    <strong>根本原因</strong>: 这与 Deno.cron 的情况类似。Base44 的 Serverless 架构是<strong className="font-semibold">按需、短暂</strong>的，函数容器在处理完请求后会被冻结或销毁。WebSocket 需要一个<strong className="font-semibold">持久化的长连接</strong>，这与 Serverless 的无状态特性相冲突。
+                  </li>
+                  <li>
+                    <strong>最终结论</strong>: Base44 平台目前<strong className="font-semibold">不支持持久化的 WebSocket 连接</strong>。虽然协议升级可以完成，但连接无法保持。
+                  </li>
+                  <li>
+                    <strong>替代方案</strong>: 对于实时通信需求，建议使用<strong className="font-semibold">轮询（Polling）</strong>或<strong className="font-semibold">Server-Sent Events (SSE)</strong>，或者集成第三方实时服务（如 Pusher、Ably）。
+                  </li>
+                </ul>
+              </AlertDescription>
+            </Alert>
+
             <div className="flex gap-3">
               {!isConnected ? (
                 <Button onClick={connect} className="bg-blue-600 hover:bg-blue-700">
