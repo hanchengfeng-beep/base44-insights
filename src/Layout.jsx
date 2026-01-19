@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -55,6 +54,11 @@ const navigationItems = [
     title: "定时任务日志",
     url: createPageUrl("CronLogsViewer"),
     icon: BookCopy,
+  },
+  {
+    title: "WebSocket 测试",
+    url: createPageUrl("WebSocketTest"),
+    icon: Activity,
   }
 ];
 
