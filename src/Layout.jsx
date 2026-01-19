@@ -59,6 +59,11 @@ const navigationItems = [
     title: "WebSocket 测试",
     url: createPageUrl("WebSocketTest"),
     icon: Activity,
+  },
+  {
+    title: "实时订阅",
+    url: createPageUrl("RealtimeSubscription"),
+    icon: Zap,
   }
 ];
 
