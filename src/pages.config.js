@@ -1,0 +1,17 @@
+import Home from './pages/Home';
+import MultiTableQueries from './pages/MultiTableQueries';
+import CronLogsViewer from './pages/CronLogsViewer';
+import __Layout from './Layout.jsx';
+
+
+export const PAGES = {
+    "Home": Home,
+    "MultiTableQueries": MultiTableQueries,
+    "CronLogsViewer": CronLogsViewer,
+}
+
+export const pagesConfig = {
+    mainPage: "Home",
+    Pages: PAGES,
+    Layout: __Layout,
+};
