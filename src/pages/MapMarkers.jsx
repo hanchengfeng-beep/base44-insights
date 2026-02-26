@@ -193,7 +193,7 @@ export default function MapMarkersPage() {
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [mapRef, userLocation]);
+  }, [userLocation]);
 
 
 
