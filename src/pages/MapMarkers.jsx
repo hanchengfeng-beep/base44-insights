@@ -184,8 +184,8 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
   return (
     <>
       <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; OpenStreetMap contributors'
+        url="https://rt{0,1,2,3}.map.gtimg.com/tile?z={z}&x={x}&y={y}"
+        attribution='&copy; 腾讯地图'
         maxZoom={19}
       />
       
