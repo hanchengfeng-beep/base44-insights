@@ -180,20 +180,16 @@ export default function MapMarkersPage() {
     setClusters(clustered);
   }, [visibleMarkers, zoomLevel]);
 
-  React.useEffect(() => {
-    // 当地图实例和用户位置都就绪时，执行初始化刷新
+  const performRefresh = () => {
     if (mapRef.current && userLocation) {
-      const timer = setTimeout(() => {
-        mapRef.current.invalidateSize();
-        const bounds = L.latLngBounds(
-          L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
-          L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
-        );
-        mapRef.current.fitBounds(bounds);
-      }, 100);
-      return () => clearTimeout(timer);
+      mapRef.current.invalidateSize();
+      const bounds = L.latLngBounds(
+        L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
+        L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
+      );
+      mapRef.current.fitBounds(bounds);
     }
-  }, [userLocation]);
+  };
 
 
 
