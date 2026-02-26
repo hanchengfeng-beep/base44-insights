@@ -108,7 +108,16 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
     console.log('🗺️ useMap hook 被调用，地图实例:', map);
     mapRef.current = map;
     console.log('✅ mapRef.current 已通过 useMap 设置');
-  }, [map, mapRef]);
+    
+    // 监听缩放事件
+    const handleZoom = () => {
+      setZoomLevel(map.getZoom());
+      console.log('🔍 缩放级别:', map.getZoom());
+    };
+    
+    map.on('zoomend', handleZoom);
+    return () => map.off('zoomend', handleZoom);
+  }, [map, mapRef, setZoomLevel]);
   
   // 地图初始化完成后，获取用户位置（仅一次）
   React.useEffect(() => {
