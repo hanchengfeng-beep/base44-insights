@@ -169,9 +169,10 @@ export default function MapMarkersPage() {
                       style={{ width: '100%', height: '100%' }}
                     >
                       <TileLayer
-                        url="https://webrd0{s}.is.autonavi.com/appmapapi?style=7&x={x}&y={y}&z={z}"
-                        subdomains="1234"
-                        attribution='&copy; 高德地图'
+                        url="https://rt{s}.map.qq.com/tile?z={z}&x={x}&y={y}&type=vector"
+                        subdomains="0123"
+                        attribution='&copy; 腾讯地图'
+                        crossOrigin="anonymous"
                       />
                       {markers.map(marker => (
                         <Marker
