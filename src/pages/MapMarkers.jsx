@@ -174,8 +174,20 @@ export default function MapMarkersPage() {
               {/* 右侧：地图 */}
               <div className="lg:col-span-3 h-full">
                 <Card className="border-2 h-full flex flex-col">
-                  <CardHeader>
+                  <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="text-lg">地图展示</CardTitle>
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => {
+                        if (window.mapInstance) {
+                          window.mapInstance.invalidateSize();
+                        }
+                      }}
+                    >
+                      <RefreshCw className="w-4 h-4 mr-1" />
+                      刷新
+                    </Button>
                   </CardHeader>
                   <CardContent className="p-0 overflow-hidden rounded-b-lg flex-1" style={{ minHeight: '600px' }}>
                     <MapContainer
