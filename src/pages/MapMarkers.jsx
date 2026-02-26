@@ -183,9 +183,7 @@ export default function MapMarkersPage() {
                       zoom={4}
                       style={{ width: '100%', height: '100%' }}
                       whenCreated={(map) => {
-                        console.log('✅ MapContainer 创建成功');
-                        console.log('地图坐标:', map.getCenter());
-                        console.log('地图缩放级别:', map.getZoom());
+                        window.mapInstance = map;
                         map.invalidateSize();
                       }}
                     >
