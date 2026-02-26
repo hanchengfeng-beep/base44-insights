@@ -433,9 +433,14 @@ export default function MapMarkersPage() {
                     />
                   </div>
 
-                  <Button onClick={addMarker} className="w-full bg-blue-600 hover:bg-blue-700">
+                  <Button onClick={handleAddMarkerClick} className="w-full bg-blue-600 hover:bg-blue-700">
                     <Plus className="w-4 h-4 mr-2" />
                     添加标注点
+                  </Button>
+
+                  <Button onClick={addMarker} className="w-full bg-green-600 hover:bg-green-700" disabled={!newMarker.name}>
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                    确认添加
                   </Button>
 
                   <div className="border-t pt-4 space-y-2 max-h-96 overflow-y-auto">
