@@ -233,7 +233,7 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
           <Marker key={`cluster-${idx}`} position={[cluster.lat, cluster.lng]} icon={clusterIcon}>
             <Popup>
               <div className="text-sm">
-                <div className="font-bold text-slate-900">聚合点 ({cluster.count}个)</div>
+                <div className="font-bold text-slate-900">{cluster.district} - {cluster.count}个点</div>
                 <div className="text-slate-600 text-xs mt-2 space-y-1">
                   {cluster.markers.map(m => (
                     <div key={m.id}>{m.name}</div>
@@ -251,6 +251,7 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
                   {cluster.markers[0].lat.toFixed(4)}, {cluster.markers[0].lng.toFixed(4)}
                 </div>
                 <div className="text-slate-600 text-xs mt-1">{cluster.markers[0].description}</div>
+                <div className="text-slate-500 text-xs mt-1 font-medium">{cluster.markers[0].district}</div>
               </div>
             </Popup>
           </Marker>
