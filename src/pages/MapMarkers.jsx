@@ -201,10 +201,9 @@ export default function MapMarkersPage() {
                       }}
                     >
                       <TileLayer
-                        url="https://webst0{s}.is.autonavi.com/appmaptile?style=1&x={x}&y={y}&z={z}"
-                        subdomains={['1', '2', '3', '4']}
-                        attribution='&copy; 高德地图'
-                        maxZoom={18}
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='&copy; OpenStreetMap contributors'
+                        maxZoom={19}
                       />
                       {markers.map(marker => (
                         <Marker
