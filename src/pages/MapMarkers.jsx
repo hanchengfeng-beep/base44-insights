@@ -163,41 +163,25 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
         maxZoom={19}
       />
       
-      {/* 用户位置 */}
+      {/* 用户位置 - 蓝色图标 */}
       {userLocation && (
-        <Marker position={[userLocation.lat, userLocation.lng]}>
+        <Marker position={[userLocation.lat, userLocation.lng]} icon={userLocationIcon}>
           <Popup>
             <div className="text-sm font-bold">我的位置</div>
           </Popup>
         </Marker>
       )}
 
-      {/* 聚类后的标注点 */}
-      {clusters.map((cluster, idx) => (
-        <Marker
-          key={idx}
-          position={[cluster.lat, cluster.lng]}
-        >
+      {/* 标注点 - 红色图标 */}
+      {visibleMarkers.map((marker) => (
+        <Marker key={marker.id} position={[marker.lat, marker.lng]} icon={poiIcon}>
           <Popup>
             <div className="text-sm">
-              {cluster.count > 1 ? (
-                <div>
-                  <div className="font-bold">聚类点 ({cluster.count}个)</div>
-                  <ul className="text-xs mt-2">
-                    {cluster.markers.map((m, i) => (
-                      <li key={i}>- {m.name}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : (
-                <div>
-                  <div className="font-bold text-slate-900">{cluster.markers[0].name}</div>
-                  <div className="text-slate-600">
-                    {cluster.markers[0].lat.toFixed(4)}, {cluster.markers[0].lng.toFixed(4)}
-                  </div>
-                  <div className="text-slate-600 mt-1">{cluster.markers[0].description}</div>
-                </div>
-              )}
+              <div className="font-bold text-slate-900">{marker.name}</div>
+              <div className="text-slate-600 text-xs">
+                {marker.lat.toFixed(4)}, {marker.lng.toFixed(4)}
+              </div>
+              <div className="text-slate-600 text-xs mt-1">{marker.description}</div>
             </div>
           </Popup>
         </Marker>
