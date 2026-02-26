@@ -69,27 +69,66 @@ const clusterMarkers = (markersToCluster, clusterRadius) => {
 };
 
 // 内部组件：用于获取地图实例
-function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoomLevel, mapRef }) {
+function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoomLevel, mapRef, setUserLocation }) {
   const map = useMap();
+  const geolocationAttempted = React.useRef(false);
   
   React.useEffect(() => {
     console.log('🗺️ useMap hook 被调用，地图实例:', map);
     mapRef.current = map;
     console.log('✅ mapRef.current 已通过 useMap 设置');
-    
-    // 地图初始化完成后，自动缩放到用户位置
-    if (userLocation && map) {
+  }, [map, mapRef]);
+  
+  // 地图初始化完成后，获取用户位置（仅一次）
+  React.useEffect(() => {
+    if (map && !userLocation && !geolocationAttempted.current) {
+      geolocationAttempted.current = true;
+      console.log('🗺️ 地图已初始化，开始获取用户位置...');
+      
+      if (navigator.geolocation) {
+        const startTime = Date.now();
+        
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const endTime = Date.now();
+            const duration = endTime - startTime;
+            console.log('%c✅ 位置获取成功！', 'color: green; font-weight: bold; font-size: 12px');
+            console.log('⏱️ 耗时:', duration, 'ms (', (duration / 1000).toFixed(2), '秒)');
+            console.log('📍 纬度:', position.coords.latitude);
+            console.log('📍 经度:', position.coords.longitude);
+            console.log('📍 精度:', position.coords.accuracy, '米');
+            
+            const { latitude, longitude } = position.coords;
+            setUserLocation({ lat: latitude, lng: longitude });
+            console.log('💾 userLocation 已更新');
+          },
+          (error) => {
+            const endTime = Date.now();
+            const duration = endTime - startTime;
+            console.log('%c❌ 位置获取失败', 'color: red; font-weight: bold; font-size: 12px');
+            console.log('⏱️ 耗时:', duration, 'ms');
+            console.log('错误代码:', error.code);
+            console.log('错误信息:', error.message);
+          }
+        );
+      }
+    }
+  }, [map, userLocation, setUserLocation]);
+  
+  // 地图已有位置信息时，执行缩放
+  React.useEffect(() => {
+    if (map && userLocation) {
+      console.log('🗺️ 地图已初始化，执行自动缩放到用户位置');
       setTimeout(() => {
-        console.log('🗺️ 地图已初始化，执行自动缩放');
         const bounds = L.latLngBounds(
           L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
           L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
         );
         map.fitBounds(bounds);
         console.log('✅ 自动缩放完成');
-      }, 300);
+      }, 100);
     }
-  }, [map, mapRef, userLocation]);
+  }, [map, userLocation]);
 
   return (
     <>
