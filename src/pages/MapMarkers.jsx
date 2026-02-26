@@ -236,7 +236,14 @@ export default function MapMarkersPage() {
               <div className="lg:col-span-3 h-full">
                 <Card className="border-2 h-full flex flex-col">
                   <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="text-lg">地图展示</CardTitle>
+                    <div>
+                      <CardTitle className="text-lg">地图展示</CardTitle>
+                      {userLocation && (
+                        <p className="text-xs text-slate-500 mt-1">
+                          我的位置: {userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}
+                        </p>
+                      )}
+                    </div>
                     <Button 
                       size="sm" 
                       variant="outline"
