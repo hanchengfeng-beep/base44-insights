@@ -181,10 +181,19 @@ export default function MapMarkersPage() {
   }, [visibleMarkers, zoomLevel]);
 
   React.useEffect(() => {
-    console.log('🔍 MapMarkersPage 组件已挂载/更新');
-    console.log('📍 mapRef.current:', mapRef.current);
-    console.log('🗺️ 检查 .leaflet-container 是否存在:', document.querySelector('.leaflet-container'));
-  }, []);
+    // 当地图实例和用户位置都就绪时，执行初始化刷新
+    if (mapRef.current && userLocation) {
+      const timer = setTimeout(() => {
+        mapRef.current.invalidateSize();
+        const bounds = L.latLngBounds(
+          L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
+          L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
+        );
+        mapRef.current.fitBounds(bounds);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [mapRef, userLocation]);
 
 
 
