@@ -179,15 +179,20 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
       )}
 
       {/* 聚类标记 */}
-      {clusters.map((cluster, idx) => (
-        cluster.count > 1 ? (
-          <Marker key={`cluster-${idx}`} position={[cluster.lat, cluster.lng]} icon={L.divIcon({
-            html: `<div style="background: #3B82F6; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">${cluster.count}</div>`,
-            iconSize: [40, 40],
-            iconAnchor: [20, 20],
-            popupAnchor: [0, -20],
-            className: 'cluster-icon'
-          })}>
+      {clusters.map((cluster, idx) => {
+        const clusterIcon = L.divIcon({
+          html: `<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="18" fill="#3B82F6" opacity="0.9" stroke="white" stroke-width="2"/>
+            <text x="20" y="24" font-size="16" font-weight="bold" fill="white" text-anchor="middle">${cluster.count}</text>
+          </svg>`,
+          iconSize: [40, 40],
+          iconAnchor: [20, 20],
+          popupAnchor: [0, -20],
+          className: 'cluster-icon'
+        });
+        
+        return cluster.count > 1 ? (
+          <Marker key={`cluster-${idx}`} position={[cluster.lat, cluster.lng]} icon={clusterIcon}>
             <Popup>
               <div className="text-sm">
                 <div className="font-bold text-slate-900">聚合点 ({cluster.count}个)</div>
@@ -211,8 +216,8 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
               </div>
             </Popup>
           </Marker>
-        )
-      ))}
+        );
+      })}
     </>
   );
 }
