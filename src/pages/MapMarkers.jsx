@@ -315,7 +315,7 @@ export default function MapMarkersPage() {
                                   <div className="text-slate-600 mt-1">{cluster.markers[0].description}</div>
                                 </div>
                               )}
-                            </Popup>
+                            </div>
                           </Popup>
                         </Marker>
                       ))}
