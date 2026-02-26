@@ -86,12 +86,12 @@ export default function MapMarkersPage() {
           setUserLocation({ lat: latitude, lng: longitude });
           
           // 缩放地图到10KM范围
-          if (window.mapInstance) {
+          if (mapRef.current) {
             const bounds = L.latLngBounds(
               L.latLng(latitude - 0.045, longitude - 0.045),
               L.latLng(latitude + 0.045, longitude + 0.045)
             );
-            window.mapInstance.fitBounds(bounds);
+            mapRef.current.fitBounds(bounds);
           }
         },
         (error) => console.log('位置获取失败:', error)
