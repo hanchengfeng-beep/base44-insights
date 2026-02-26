@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
+import 'leaflet/dist/leaflet.css';
 import { 
   Activity, 
   Database, 
