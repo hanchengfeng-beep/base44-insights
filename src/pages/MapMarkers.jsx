@@ -301,8 +301,14 @@ export default function MapMarkersPage() {
                       className="w-full h-full"
                       onZoomEnd={(e) => setZoomLevel(e.target.getZoom())}
                       whenCreated={(map) => {
+                        console.log('🗺️ MapContainer whenCreated 被调用');
+                        console.log('📍 map 实例:', map);
                         mapRef.current = map;
-                        setTimeout(() => map.invalidateSize(), 100);
+                        console.log('✅ mapRef.current 已设置:', mapRef.current);
+                        setTimeout(() => {
+                          map.invalidateSize();
+                          console.log('✅ invalidateSize 已执行');
+                        }, 100);
                       }}
                     >
                       <TileLayer
