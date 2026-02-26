@@ -456,7 +456,6 @@ export default function MapMarkersPage() {
                       zoom={4}
                       style={{ width: '100%', height: '100%' }}
                       className="w-full h-full"
-                      onZoomEnd={(e) => setZoomLevel(e.target.getZoom())}
                     >
                       <MapContent 
                         userLocation={userLocation}
