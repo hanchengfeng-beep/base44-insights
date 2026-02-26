@@ -239,34 +239,32 @@ export default function MapMarkersPage() {
   const performRefresh = React.useCallback(() => {
     console.log('%c========== 刷新按钮被点击 ==========', 'color: purple; font-weight: bold; font-size: 12px');
     console.log('⏰ 点击时间:', new Date().toLocaleTimeString());
-    console.log('🗺️ mapRef.current 状态:', mapRef.current ? '✅ 存在' : '❌ 不存在');
-    console.log('📍 userLocation:', userLocation);
     
-    if (mapRef.current && userLocation) {
-      console.log('%c✅ 条件满足，开始执行刷新', 'color: green');
-      console.log('1️⃣ 调用 invalidateSize()');
-      mapRef.current.invalidateSize();
-      console.log('   ✓ invalidateSize() 完成');
+    // 重新获取用户位置
+    if (navigator.geolocation) {
+      console.log('🔄 重新获取用户位置...');
+      const startTime = Date.now();
       
-      // 延迟后执行 fitBounds，确保 DOM 已完全就绪
-      setTimeout(() => {
-        console.log('2️⃣ 延迟 150ms 后，执行 fitBounds()');
-        const bounds = L.latLngBounds(
-          L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
-          L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
-        );
-        console.log('📊 缩放范围边界:');
-        console.log('   西南角: [', (userLocation.lat - 0.045).toFixed(4), ',', (userLocation.lng - 0.045).toFixed(4), ']');
-        console.log('   东北角: [', (userLocation.lat + 0.045).toFixed(4), ',', (userLocation.lng + 0.045).toFixed(4), ']');
-        mapRef.current.fitBounds(bounds);
-        console.log('   ✓ fitBounds() 完成');
-      }, 150);
-    } else {
-      console.log('%c❌ 条件不满足，无法刷新', 'color: red');
-      if (!mapRef.current) console.log('   - mapRef.current 为 null');
-      if (!userLocation) console.log('   - userLocation 为 null');
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const endTime = Date.now();
+          const duration = endTime - startTime;
+          console.log('%c✅ 重新获取位置成功！', 'color: green; font-weight: bold; font-size: 12px');
+          console.log('⏱️ 耗时:', duration, 'ms');
+          
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+          console.log('💾 userLocation 已更新');
+          
+          // 位置更新后，地图会自动缩放（通过 MapContent 中的 useEffect）
+        },
+        (error) => {
+          console.log('%c❌ 重新获取位置失败', 'color: red; font-weight: bold; font-size: 12px');
+          console.log('错误信息:', error.message);
+        }
+      );
     }
-  }, [userLocation]);
+  }, []);
 
 
 
