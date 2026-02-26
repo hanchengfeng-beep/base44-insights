@@ -224,7 +224,7 @@ export default function MapMarkersPage() {
                   </Button>
 
                   <div className="border-t pt-4 space-y-2 max-h-96 overflow-y-auto">
-                    {markers.map(marker => (
+                    {visibleMarkers.map(marker => (
                       <div key={marker.id} className="border rounded p-2 text-sm">
                         <div className="font-medium text-slate-900">{marker.name}</div>
                         <div className="text-xs text-slate-500 mt-1">
