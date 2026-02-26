@@ -111,12 +111,18 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
     
     // 监听缩放事件
     const handleZoom = () => {
-      setZoomLevel(map.getZoom());
-      console.log('🔍 缩放级别:', map.getZoom());
+      const newZoom = map.getZoom();
+      console.log('%c【缩放事件】', 'color: purple; font-weight: bold');
+      console.log('🔍 缩放级别变更:', newZoom);
+      setZoomLevel(newZoom);
     };
     
     map.on('zoomend', handleZoom);
-    return () => map.off('zoomend', handleZoom);
+    console.log('✅ 缩放事件监听已注册');
+    return () => {
+      map.off('zoomend', handleZoom);
+      console.log('❌ 缩放事件监听已移除');
+    };
   }, [map, mapRef, setZoomLevel]);
   
   // 地图初始化完成后，获取用户位置（仅一次）
