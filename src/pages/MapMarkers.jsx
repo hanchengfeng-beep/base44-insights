@@ -367,62 +367,15 @@ export default function MapMarkersPage() {
                       style={{ width: '100%', height: '100%' }}
                       className="w-full h-full"
                       onZoomEnd={(e) => setZoomLevel(e.target.getZoom())}
-                      whenCreated={(map) => {
-                        console.log('🗺️ MapContainer whenCreated 被调用');
-                        console.log('📍 map 实例:', map);
-                        mapRef.current = map;
-                        console.log('✅ mapRef.current 已设置:', mapRef.current);
-                        setTimeout(() => {
-                          map.invalidateSize();
-                          console.log('✅ invalidateSize 已执行');
-                        }, 100);
-                      }}
                     >
-                      <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; OpenStreetMap contributors'
-                        maxZoom={19}
+                      <MapContent 
+                        userLocation={userLocation}
+                        clusters={clusters}
+                        visibleMarkers={visibleMarkers}
+                        zoomLevel={zoomLevel}
+                        setZoomLevel={setZoomLevel}
+                        mapRef={mapRef}
                       />
-                      
-                      {/* 用户位置 */}
-                      {userLocation && (
-                        <Marker position={[userLocation.lat, userLocation.lng]}>
-                          <Popup>
-                            <div className="text-sm font-bold">我的位置</div>
-                          </Popup>
-                        </Marker>
-                      )}
-
-                      {/* 聚类后的标注点 */}
-                      {clusters.map((cluster, idx) => (
-                        <Marker
-                          key={idx}
-                          position={[cluster.lat, cluster.lng]}
-                        >
-                          <Popup>
-                            <div className="text-sm">
-                              {cluster.count > 1 ? (
-                                <div>
-                                  <div className="font-bold">聚类点 ({cluster.count}个)</div>
-                                  <ul className="text-xs mt-2">
-                                    {cluster.markers.map((m, i) => (
-                                      <li key={i}>- {m.name}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              ) : (
-                                <div>
-                                  <div className="font-bold text-slate-900">{cluster.markers[0].name}</div>
-                                  <div className="text-slate-600">
-                                    {cluster.markers[0].lat.toFixed(4)}, {cluster.markers[0].lng.toFixed(4)}
-                                  </div>
-                                  <div className="text-slate-600 mt-1">{cluster.markers[0].description}</div>
-                                </div>
-                              )}
-                            </div>
-                          </Popup>
-                        </Marker>
-                      ))}
                     </MapContainer>
                   </CardContent>
                 </Card>
