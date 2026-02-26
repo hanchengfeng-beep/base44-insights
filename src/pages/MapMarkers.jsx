@@ -72,8 +72,9 @@ export default function MapMarkersPage() {
   const [markers, setMarkers] = useState(defaultMarkers);
   const [newMarker, setNewMarker] = useState({ name: '', lat: '', lng: '', description: '' });
   const [userLocation, setUserLocation] = useState(null);
-  const [zoomLevel, setZoomLevel] = useState(4);
+  const [zoomLevel, setZoomLevel] = useState(10);
   const [clusters, setClusters] = useState([]);
+  const [visibleMarkers, setVisibleMarkers] = useState(defaultMarkers);
 
   React.useEffect(() => {
     // 获取用户位置
@@ -89,11 +90,24 @@ export default function MapMarkersPage() {
   }, []);
 
   React.useEffect(() => {
+    // 过滤10KM范围内的标注点
+    if (userLocation) {
+      const filtered = markers.filter(marker => {
+        const distance = calculateDistance(userLocation.lat, userLocation.lng, marker.lat, marker.lng);
+        return distance <= 10; // 10KM范围
+      });
+      setVisibleMarkers(filtered);
+    } else {
+      setVisibleMarkers(markers);
+    }
+  }, [markers, userLocation]);
+
+  React.useEffect(() => {
     // 根据缩放级别动态聚类
     const clusterRadius = Math.max(0.5, 20 / Math.pow(2, zoomLevel)); // km
-    const clustered = clusterMarkers(markers, clusterRadius);
+    const clustered = clusterMarkers(visibleMarkers, clusterRadius);
     setClusters(clustered);
-  }, [markers, zoomLevel]);
+  }, [visibleMarkers, zoomLevel]);
 
   React.useEffect(() => {
     // 检查初始尺寸
