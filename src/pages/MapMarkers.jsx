@@ -289,11 +289,6 @@ export default function MapMarkersPage() {
                         <Marker
                           key={idx}
                           position={[cluster.lat, cluster.lng]}
-                          icon={cluster.count > 1 ? L.divIcon({
-                            html: `<div style="background: #3b82f6; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: bold;">${cluster.count}</div>`,
-                            iconSize: [40, 40],
-                            className: 'cluster-marker'
-                          }) : undefined}
                         >
                           <Popup>
                             <div className="text-sm">
