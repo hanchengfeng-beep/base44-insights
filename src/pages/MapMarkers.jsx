@@ -181,13 +181,24 @@ export default function MapMarkersPage() {
   }, [visibleMarkers, zoomLevel]);
 
   const performRefresh = () => {
+    console.log('🔄 刷新按钮被点击');
+    console.log('📍 mapRef.current:', mapRef.current);
+    console.log('📍 userLocation:', userLocation);
+    
     if (mapRef.current && userLocation) {
+      console.log('✅ 地图实例存在，调用 invalidateSize');
       mapRef.current.invalidateSize();
+      
+      console.log('✅ 用户位置存在，准备缩放');
       const bounds = L.latLngBounds(
         L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
         L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
       );
+      console.log('📊 缩放范围:', bounds);
       mapRef.current.fitBounds(bounds);
+      console.log('✅ fitBounds 调用完成');
+    } else {
+      console.log('❌ mapRef.current:', mapRef.current, '| userLocation:', userLocation);
     }
   };
 
