@@ -288,7 +288,7 @@ export default function MapMarkersPage() {
                       className="w-full h-full"
                       onZoomEnd={(e) => setZoomLevel(e.target.getZoom())}
                       whenCreated={(map) => {
-                        window.mapInstance = map;
+                        mapRef.current = map;
                         setTimeout(() => map.invalidateSize(), 100);
                       }}
                     >
