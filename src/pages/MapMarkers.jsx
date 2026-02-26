@@ -75,6 +75,7 @@ export default function MapMarkersPage() {
   const [zoomLevel, setZoomLevel] = useState(10);
   const [clusters, setClusters] = useState([]);
   const [visibleMarkers, setVisibleMarkers] = useState(defaultMarkers);
+  const mapRef = React.useRef(null);
 
   React.useEffect(() => {
     // 获取用户位置
