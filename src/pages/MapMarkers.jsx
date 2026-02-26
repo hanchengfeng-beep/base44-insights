@@ -130,6 +130,20 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
 }
 
 export default function MapMarkersPage() {
+  const pageLoadTime = React.useRef(Date.now());
+  
+  React.useEffect(() => {
+    const now = Date.now();
+    console.log('%c========== 页面加载开始 ==========', 'color: blue; font-weight: bold; font-size: 14px');
+    console.log('📄 MapMarkersPage 组件挂载，时间:', new Date().toLocaleTimeString());
+    
+    return () => {
+      const duration = Date.now() - pageLoadTime.current;
+      console.log('%c========== 页面卸载 ==========', 'color: red; font-weight: bold; font-size: 14px');
+      console.log('⏱️ 页面存活时间:', duration, 'ms');
+    };
+  }, []);
+  
   const [markers, setMarkers] = useState(defaultMarkers);
   const [newMarker, setNewMarker] = useState({ name: '', lat: '', lng: '', description: '' });
   const [userLocation, setUserLocation] = useState(null);
