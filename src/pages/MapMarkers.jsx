@@ -252,10 +252,11 @@ export default function MapMarkersPage() {
                   </CardHeader>
                   <CardContent className="p-0 overflow-hidden rounded-b-lg flex-1" style={{ minHeight: '800px' }}>
                     <MapContainer
-                      center={[31.2304, 121.4737]}
+                      center={userLocation ? [userLocation.lat, userLocation.lng] : [31.2304, 121.4737]}
                       zoom={4}
                       style={{ width: '100%', height: '100%' }}
                       className="w-full h-full"
+                      onZoomEnd={(e) => setZoomLevel(e.target.getZoom())}
                       whenCreated={(map) => {
                         window.mapInstance = map;
                         setTimeout(() => map.invalidateSize(), 100);
@@ -266,19 +267,48 @@ export default function MapMarkersPage() {
                         attribution='&copy; OpenStreetMap contributors'
                         maxZoom={19}
                       />
-                      {markers.map(marker => (
+                      
+                      {/* 用户位置 */}
+                      {userLocation && (
+                        <Marker position={[userLocation.lat, userLocation.lng]}>
+                          <Popup>
+                            <div className="text-sm font-bold">我的位置</div>
+                          </Popup>
+                        </Marker>
+                      )}
+
+                      {/* 聚类后的标注点 */}
+                      {clusters.map((cluster, idx) => (
                         <Marker
-                          key={marker.id}
-                          position={[marker.lat, marker.lng]}
+                          key={idx}
+                          position={[cluster.lat, cluster.lng]}
+                          icon={cluster.count > 1 ? L.divIcon({
+                            html: `<div style="background: #3b82f6; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: bold;">${cluster.count}</div>`,
+                            iconSize: [40, 40],
+                            className: 'cluster-marker'
+                          }) : undefined}
                         >
                           <Popup>
                             <div className="text-sm">
-                              <div className="font-bold text-slate-900">{marker.name}</div>
-                              <div className="text-slate-600">
-                                {marker.lat.toFixed(4)}, {marker.lng.toFixed(4)}
-                              </div>
-                              <div className="text-slate-600 mt-1">{marker.description}</div>
-                            </div>
+                              {cluster.count > 1 ? (
+                                <div>
+                                  <div className="font-bold">聚类点 ({cluster.count}个)</div>
+                                  <ul className="text-xs mt-2">
+                                    {cluster.markers.map((m, i) => (
+                                      <li key={i}>- {m.name}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              ) : (
+                                <div>
+                                  <div className="font-bold text-slate-900">{cluster.markers[0].name}</div>
+                                  <div className="text-slate-600">
+                                    {cluster.markers[0].lat.toFixed(4)}, {cluster.markers[0].lng.toFixed(4)}
+                                  </div>
+                                  <div className="text-slate-600 mt-1">{cluster.markers[0].description}</div>
+                                </div>
+                              )}
+                            </Popup>
                           </Popup>
                         </Marker>
                       ))}
