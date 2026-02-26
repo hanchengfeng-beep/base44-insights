@@ -119,6 +119,12 @@ export default function MapMarkersPage() {
     setClusters(clustered);
   }, [visibleMarkers, zoomLevel]);
 
+  React.useEffect(() => {
+    console.log('🔍 MapMarkersPage 组件已挂载/更新');
+    console.log('📍 mapRef.current:', mapRef.current);
+    console.log('🗺️ 检查 .leaflet-container 是否存在:', document.querySelector('.leaflet-container'));
+  }, []);
+
 
 
   const addMarker = () => {
