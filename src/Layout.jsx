@@ -65,6 +65,11 @@ const navigationItems = [
     title: "实时订阅",
     url: createPageUrl("RealtimeSubscription"),
     icon: Zap,
+  },
+  {
+    title: "地图标注点",
+    url: createPageUrl("MapMarkers"),
+    icon: MapPin,
   }
 ];
 
