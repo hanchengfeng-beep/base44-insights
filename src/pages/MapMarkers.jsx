@@ -189,7 +189,7 @@ export default function MapMarkersPage() {
                       刷新
                     </Button>
                   </CardHeader>
-                  <CardContent className="p-0 overflow-hidden rounded-b-lg flex-1" style={{ minHeight: '600px' }}>
+                  <CardContent className="p-0 overflow-hidden rounded-b-lg flex-1" style={{ minHeight: '800px' }}>
                     <MapContainer
                       center={[31.2304, 121.4737]}
                       zoom={4}
