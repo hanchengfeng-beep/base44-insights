@@ -68,6 +68,67 @@ const clusterMarkers = (markersToCluster, clusterRadius) => {
   return clusters;
 };
 
+// 内部组件：用于获取地图实例
+function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoomLevel, mapRef }) {
+  const map = useMap();
+  
+  React.useEffect(() => {
+    console.log('🗺️ useMap hook 被调用，地图实例:', map);
+    mapRef.current = map;
+    console.log('✅ mapRef.current 已通过 useMap 设置:', mapRef.current);
+  }, [map, mapRef]);
+
+  return (
+    <>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; OpenStreetMap contributors'
+        maxZoom={19}
+      />
+      
+      {/* 用户位置 */}
+      {userLocation && (
+        <Marker position={[userLocation.lat, userLocation.lng]}>
+          <Popup>
+            <div className="text-sm font-bold">我的位置</div>
+          </Popup>
+        </Marker>
+      )}
+
+      {/* 聚类后的标注点 */}
+      {clusters.map((cluster, idx) => (
+        <Marker
+          key={idx}
+          position={[cluster.lat, cluster.lng]}
+        >
+          <Popup>
+            <div className="text-sm">
+              {cluster.count > 1 ? (
+                <div>
+                  <div className="font-bold">聚类点 ({cluster.count}个)</div>
+                  <ul className="text-xs mt-2">
+                    {cluster.markers.map((m, i) => (
+                      <li key={i}>- {m.name}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <div>
+                  <div className="font-bold text-slate-900">{cluster.markers[0].name}</div>
+                  <div className="text-slate-600">
+                    {cluster.markers[0].lat.toFixed(4)}, {cluster.markers[0].lng.toFixed(4)}
+                  </div>
+                  <div className="text-slate-600 mt-1">{cluster.markers[0].description}</div>
+                </div>
+              )}
+            </div>
+          </Popup>
+        </Marker>
+      ))}
+    </>
+  );
+}
+
 export default function MapMarkersPage() {
   const [markers, setMarkers] = useState(defaultMarkers);
   const [newMarker, setNewMarker] = useState({ name: '', lat: '', lng: '', description: '' });
