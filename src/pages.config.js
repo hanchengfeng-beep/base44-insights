@@ -49,20 +49,20 @@
  */
 import CronLogsViewer from './pages/CronLogsViewer';
 import Home from './pages/Home';
-import MapMarkers from './pages/MapMarkers';
 import MultiTableQueries from './pages/MultiTableQueries';
 import RealtimeSubscription from './pages/RealtimeSubscription';
 import WebSocketTest from './pages/WebSocketTest';
+import MapMarkers from './pages/MapMarkers';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "CronLogsViewer": CronLogsViewer,
     "Home": Home,
-    "MapMarkers": MapMarkers,
     "MultiTableQueries": MultiTableQueries,
     "RealtimeSubscription": RealtimeSubscription,
     "WebSocketTest": WebSocketTest,
+    "MapMarkers": MapMarkers,
 }
 
 export const pagesConfig = {

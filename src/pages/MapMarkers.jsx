@@ -322,6 +322,18 @@ export default function MapMarkersPage() {
 
 
 
+  const handleAddMarkerClick = () => {
+    if (mapRef.current) {
+      const center = mapRef.current.getCenter();
+      setNewMarker({ 
+        name: '', 
+        lat: center.lat.toFixed(4), 
+        lng: center.lng.toFixed(4), 
+        description: '' 
+      });
+    }
+  };
+
   const addMarker = () => {
     if (newMarker.name && newMarker.lat && newMarker.lng) {
       setMarkers([
