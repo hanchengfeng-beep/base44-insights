@@ -201,8 +201,9 @@ export default function MapMarkersPage() {
                       }}
                     >
                       <TileLayer
-                        url="https://rt0.map.gtimg.com/tile?z={z}&x={x}&y={y}"
-                        attribution='&copy; 腾讯地图'
+                        url="https://webst0{1-4}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}"
+                        subdomains={['1', '2', '3', '4']}
+                        attribution='&copy; 高德地图'
                         maxZoom={18}
                       />
                       {markers.map(marker => (
