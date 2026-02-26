@@ -8,7 +8,8 @@ import {
   Zap,
   Home,
   Sparkles,
-  BookCopy, // 新增图标
+  BookCopy,
+  MapPin,
 } from "lucide-react";
 import {
   Sidebar,
