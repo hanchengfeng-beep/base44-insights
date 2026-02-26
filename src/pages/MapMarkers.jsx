@@ -201,7 +201,7 @@ export default function MapMarkersPage() {
                       }}
                     >
                       <TileLayer
-                        url="https://webst0{1-4}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}"
+                        url="https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}"
                         subdomains={['1', '2', '3', '4']}
                         attribution='&copy; 高德地图'
                         maxZoom={18}
