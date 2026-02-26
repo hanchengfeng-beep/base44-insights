@@ -67,36 +67,54 @@ const calculateDistance = (lat1, lng1, lat2, lng2) => {
   return R * c;
 };
 
-// 聚类算法
+// 聚类算法 - 先按区域分组，再按距离聚类
 const clusterMarkers = (markersToCluster, clusterRadius) => {
   console.log('%c【clusterMarkers 函数执行】', 'color: green; font-weight: bold');
   console.log('📍 输入标注点数:', markersToCluster.length);
   console.log('📏 聚类半径:', clusterRadius, 'km');
   
+  // 第一步：按区域分组
+  const districtGroups = {};
+  markersToCluster.forEach(marker => {
+    const district = marker.district || '未分类';
+    if (!districtGroups[district]) {
+      districtGroups[district] = [];
+    }
+    districtGroups[district].push(marker);
+  });
+  
+  console.log('📍 按区域分组:', Object.keys(districtGroups).length, '个区域');
+  
+  // 第二步：在每个区域内部进行距离聚类
   const clusters = [];
-  const visited = new Set();
+  Object.entries(districtGroups).forEach(([district, districtMarkers]) => {
+    console.log(`  区域 "${district}"：${districtMarkers.length} 个点`);
+    
+    const visited = new Set();
+    
+    districtMarkers.forEach((marker, idx) => {
+      if (visited.has(idx)) return;
 
-  markersToCluster.forEach((marker, idx) => {
-    if (visited.has(idx)) return;
+      const cluster = [marker];
+      visited.add(idx);
 
-    const cluster = [marker];
-    visited.add(idx);
-
-    markersToCluster.forEach((otherMarker, otherIdx) => {
-      if (!visited.has(otherIdx)) {
-        const distance = calculateDistance(marker.lat, marker.lng, otherMarker.lat, otherMarker.lng);
-        if (distance < clusterRadius) {
-          cluster.push(otherMarker);
-          visited.add(otherIdx);
+      districtMarkers.forEach((otherMarker, otherIdx) => {
+        if (!visited.has(otherIdx)) {
+          const distance = calculateDistance(marker.lat, marker.lng, otherMarker.lat, otherMarker.lng);
+          if (distance < clusterRadius) {
+            cluster.push(otherMarker);
+            visited.add(otherIdx);
+          }
         }
-      }
-    });
+      });
 
-    clusters.push({
-      count: cluster.length,
-      lat: cluster.reduce((sum, m) => sum + m.lat, 0) / cluster.length,
-      lng: cluster.reduce((sum, m) => sum + m.lng, 0) / cluster.length,
-      markers: cluster
+      clusters.push({
+        count: cluster.length,
+        lat: cluster.reduce((sum, m) => sum + m.lat, 0) / cluster.length,
+        lng: cluster.reduce((sum, m) => sum + m.lng, 0) / cluster.length,
+        markers: cluster,
+        district: district
+      });
     });
   });
 
