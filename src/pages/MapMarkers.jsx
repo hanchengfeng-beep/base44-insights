@@ -75,8 +75,21 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
   React.useEffect(() => {
     console.log('🗺️ useMap hook 被调用，地图实例:', map);
     mapRef.current = map;
-    console.log('✅ mapRef.current 已通过 useMap 设置:', mapRef.current);
-  }, [map, mapRef]);
+    console.log('✅ mapRef.current 已通过 useMap 设置');
+    
+    // 地图初始化完成后，自动缩放到用户位置
+    if (userLocation && map) {
+      setTimeout(() => {
+        console.log('🗺️ 地图已初始化，执行自动缩放');
+        const bounds = L.latLngBounds(
+          L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
+          L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
+        );
+        map.fitBounds(bounds);
+        console.log('✅ 自动缩放完成');
+      }, 300);
+    }
+  }, [map, mapRef, userLocation]);
 
   return (
     <>
