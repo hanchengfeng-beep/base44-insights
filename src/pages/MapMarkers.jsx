@@ -29,16 +29,16 @@ const userLocationIcon = L.icon({
   className: 'user-location-icon'
 });
 
-// 自定义标注点图标（红色）
-const poiIcon = L.icon({
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-icon-red.png',
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-icon-2x-red.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-  shadowAnchor: [12, 41]
+// 自定义标注点图标（红色SVG）
+const poiIcon = L.divIcon({
+  html: `<svg width="30" height="42" viewBox="0 0 30 42" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15 0C8.37 0 3 5.37 3 12c0 9 12 30 12 30s12-21 12-30c0-6.63-5.37-12-12-12z" fill="#EF4444"/>
+    <circle cx="15" cy="12" r="5" fill="white"/>
+  </svg>`,
+  iconSize: [30, 42],
+  iconAnchor: [15, 42],
+  popupAnchor: [0, -42],
+  className: 'poi-icon'
 });
 
 const defaultMarkers = [
