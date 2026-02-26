@@ -155,7 +155,7 @@ export default function MapMarkersPage() {
                 </CardDescription>
               </div>
               <Badge variant="default" className="text-lg px-4 py-2">
-                {markers.length} 个标注点
+                {visibleMarkers.length}/{markers.length} 个标注点
               </Badge>
             </div>
           </CardHeader>
