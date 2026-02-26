@@ -266,7 +266,16 @@ export default function MapMarkersPage() {
   React.useEffect(() => {
     // 根据缩放级别动态聚类
     const clusterRadius = Math.max(0.5, 20 / Math.pow(2, zoomLevel)); // km
+    console.log('%c【聚类计算】', 'color: orange; font-weight: bold');
+    console.log('🔍 当前缩放级别:', zoomLevel);
+    console.log('📏 聚类半径:', clusterRadius.toFixed(2), 'km');
+    
     const clustered = clusterMarkers(visibleMarkers, clusterRadius);
+    console.log('📊 聚类结果:', clustered.length, '个聚类');
+    clustered.forEach((cluster, idx) => {
+      console.log(`  聚类 ${idx + 1}: ${cluster.count} 个点, 位置: (${cluster.lat.toFixed(4)}, ${cluster.lng.toFixed(4)})`);
+    });
+    
     setClusters(clustered);
   }, [visibleMarkers, zoomLevel]);
 
