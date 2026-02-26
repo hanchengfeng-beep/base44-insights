@@ -198,6 +198,10 @@ export default function MapMarkersPage() {
                         subdomains={['a', 'b', 'c']}
                         attribution='&copy; OpenStreetMap contributors'
                         maxZoom={19}
+                        whenCreated={(layer) => {
+                          console.log('✅ TileLayer 创建成功');
+                        }}
+                        errorTile={<div style={{ background: 'red', width: '100%', height: '100%' }}>Tile Error</div>}
                       />
                       {markers.map(marker => (
                         <Marker
