@@ -283,7 +283,7 @@ export default function MapMarkersPage() {
                   <CardContent className="p-0 overflow-hidden rounded-b-lg flex-1" style={{ minHeight: '800px' }}>
                     <MapContainer
                       center={userLocation ? [userLocation.lat, userLocation.lng] : [31.2304, 121.4737]}
-                      zoom={userLocation ? 10 : 4}
+                      zoom={4}
                       style={{ width: '100%', height: '100%' }}
                       className="w-full h-full"
                       onZoomEnd={(e) => setZoomLevel(e.target.getZoom())}
