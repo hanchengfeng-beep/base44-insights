@@ -273,6 +273,14 @@ export default function MapMarkersPage() {
                       onClick={() => {
                         if (window.mapInstance) {
                           window.mapInstance.invalidateSize();
+                          // 缩放到10KM范围
+                          if (userLocation) {
+                            const bounds = L.latLngBounds(
+                              L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
+                              L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
+                            );
+                            window.mapInstance.fitBounds(bounds);
+                          }
                         }
                       }}
                     >
