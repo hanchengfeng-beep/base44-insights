@@ -42,11 +42,17 @@ const poiIcon = L.icon({
 });
 
 const defaultMarkers = [
-  { id: 1, name: '上海', lat: 31.2304, lng: 121.4737, description: '中国最大城市' },
-  { id: 2, name: '北京', lat: 39.9042, lng: 116.4074, description: '中国首都' },
-  { id: 3, name: '深圳', lat: 22.5431, lng: 114.0579, description: '经济特区' },
-  { id: 4, name: '杭州', lat: 30.2741, lng: 120.1551, description: '电商之都' },
-  { id: 5, name: '南京', lat: 32.0603, lng: 118.7969, description: '六朝古都' },
+  { id: 1, name: '上海市中心', lat: 31.2304, lng: 121.4737, description: '人民广场' },
+  { id: 2, name: '上海浦东1', lat: 31.2380, lng: 121.4850, description: '浦东新区' },
+  { id: 3, name: '上海浦东2', lat: 31.2450, lng: 121.4920, description: '陆家嘴' },
+  { id: 4, name: '上海虹口', lat: 31.2600, lng: 121.5050, description: '虹口区' },
+  { id: 5, name: '上海静安', lat: 31.2250, lng: 121.4600, description: '静安寺' },
+  { id: 6, name: '上海徐汇1', lat: 31.1950, lng: 121.4500, description: '徐家汇' },
+  { id: 7, name: '上海徐汇2', lat: 31.1850, lng: 121.4450, description: '衡山路' },
+  { id: 8, name: '上海闵行', lat: 31.1750, lng: 121.5150, description: '闵行区' },
+  { id: 9, name: '上海浦西', lat: 31.2150, lng: 121.4400, description: '黄浦江西' },
+  { id: 10, name: '上海杨浦', lat: 31.2750, lng: 121.5200, description: '杨浦区' },
+  { id: 11, name: '北京', lat: 39.9042, lng: 116.4074, description: '中国首都' },
 ];
 
 // 计算两点距离（km）
