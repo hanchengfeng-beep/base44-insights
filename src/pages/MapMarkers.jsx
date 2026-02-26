@@ -172,19 +172,20 @@ export default function MapMarkersPage() {
               </Card>
 
               {/* 右侧：地图 */}
-              <div className="lg:col-span-3">
-                <Card className="border-2 h-full">
+              <div className="lg:col-span-3 h-full">
+                <Card className="border-2 h-full flex flex-col">
                   <CardHeader>
                     <CardTitle className="text-lg">地图展示</CardTitle>
                   </CardHeader>
-                  <CardContent className="p-0 overflow-hidden rounded-b-lg" style={{ height: '600px' }}>
+                  <CardContent className="p-0 overflow-hidden rounded-b-lg flex-1" style={{ minHeight: '600px' }}>
                     <MapContainer
                       center={[31.2304, 121.4737]}
                       zoom={4}
                       style={{ width: '100%', height: '100%' }}
+                      className="w-full h-full"
                       whenCreated={(map) => {
                         window.mapInstance = map;
-                        map.invalidateSize();
+                        setTimeout(() => map.invalidateSize(), 100);
                       }}
                     >
                       <TileLayer
