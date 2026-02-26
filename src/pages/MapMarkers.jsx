@@ -232,28 +232,34 @@ export default function MapMarkersPage() {
   }, [visibleMarkers, zoomLevel]);
 
   const performRefresh = React.useCallback(() => {
-    console.log('🔄 刷新按钮被点击');
-    console.log('📍 mapRef.current:', mapRef.current);
+    console.log('%c========== 刷新按钮被点击 ==========', 'color: purple; font-weight: bold; font-size: 12px');
+    console.log('⏰ 点击时间:', new Date().toLocaleTimeString());
+    console.log('🗺️ mapRef.current 状态:', mapRef.current ? '✅ 存在' : '❌ 不存在');
     console.log('📍 userLocation:', userLocation);
-    console.log('点击时间:', new Date().toLocaleTimeString());
     
     if (mapRef.current && userLocation) {
-      console.log('✅ 地图实例存在，调用 invalidateSize');
+      console.log('%c✅ 条件满足，开始执行刷新', 'color: green');
+      console.log('1️⃣ 调用 invalidateSize()');
       mapRef.current.invalidateSize();
+      console.log('   ✓ invalidateSize() 完成');
       
       // 延迟后执行 fitBounds，确保 DOM 已完全就绪
       setTimeout(() => {
-        console.log('✅ 用户位置存在，准备缩放');
+        console.log('2️⃣ 延迟 150ms 后，执行 fitBounds()');
         const bounds = L.latLngBounds(
           L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
           L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
         );
-        console.log('📊 缩放范围:', bounds);
+        console.log('📊 缩放范围边界:');
+        console.log('   西南角: [', (userLocation.lat - 0.045).toFixed(4), ',', (userLocation.lng - 0.045).toFixed(4), ']');
+        console.log('   东北角: [', (userLocation.lat + 0.045).toFixed(4), ',', (userLocation.lng + 0.045).toFixed(4), ']');
         mapRef.current.fitBounds(bounds);
-        console.log('✅ fitBounds 调用完成');
+        console.log('   ✓ fitBounds() 完成');
       }, 150);
     } else {
-      console.log('❌ mapRef.current:', mapRef.current, '| userLocation:', userLocation);
+      console.log('%c❌ 条件不满足，无法刷新', 'color: red');
+      if (!mapRef.current) console.log('   - mapRef.current 为 null');
+      if (!userLocation) console.log('   - userLocation 为 null');
     }
   }, [userLocation]);
 
