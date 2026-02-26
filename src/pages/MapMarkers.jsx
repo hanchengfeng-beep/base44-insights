@@ -69,6 +69,10 @@ const calculateDistance = (lat1, lng1, lat2, lng2) => {
 
 // 聚类算法
 const clusterMarkers = (markersToCluster, clusterRadius) => {
+  console.log('%c【clusterMarkers 函数执行】', 'color: green; font-weight: bold');
+  console.log('📍 输入标注点数:', markersToCluster.length);
+  console.log('📏 聚类半径:', clusterRadius, 'km');
+  
   const clusters = [];
   const visited = new Set();
 
@@ -96,6 +100,7 @@ const clusterMarkers = (markersToCluster, clusterRadius) => {
     });
   });
 
+  console.log('✅ 聚类完成，共', clusters.length, '个聚类');
   return clusters;
 };
 
