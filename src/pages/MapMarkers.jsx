@@ -186,6 +186,12 @@ export default function MapMarkersPage() {
                       center={[31.2304, 121.4737]}
                       zoom={4}
                       style={{ width: '100%', height: '100%' }}
+                      whenCreated={(map) => {
+                        console.log('✅ MapContainer 创建成功');
+                        console.log('地图坐标:', map.getCenter());
+                        console.log('地图缩放级别:', map.getZoom());
+                        map.invalidateSize();
+                      }}
                     >
                       <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
