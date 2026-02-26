@@ -189,10 +189,9 @@ export default function MapMarkersPage() {
                       }}
                     >
                       <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        subdomains={['a', 'b', 'c']}
-                        attribution='&copy; OpenStreetMap contributors'
-                        maxZoom={19}
+                        url="https://rt0.map.gtimg.com/tile?z={z}&x={x}&y={y}"
+                        attribution='&copy; 腾讯地图'
+                        maxZoom={18}
                       />
                       {markers.map(marker => (
                         <Marker
