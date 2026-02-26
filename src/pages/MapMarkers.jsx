@@ -169,8 +169,9 @@ export default function MapMarkersPage() {
                       style={{ width: '100%', height: '100%' }}
                     >
                       <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; OpenStreetMap contributors'
+                        url="https://webrd0{s}.is.autonavi.com/appmapapi?style=7&x={x}&y={y}&z={z}"
+                        subdomains="1234"
+                        attribution='&copy; 高德地图'
                       />
                       {markers.map(marker => (
                         <Marker
