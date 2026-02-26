@@ -428,6 +428,7 @@ export default function MapMarkersPage() {
                     >
                       <MapContent 
                         userLocation={userLocation}
+                        setUserLocation={setUserLocation}
                         clusters={clusters}
                         visibleMarkers={visibleMarkers}
                         zoomLevel={zoomLevel}
