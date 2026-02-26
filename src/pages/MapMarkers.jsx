@@ -99,7 +99,7 @@ export default function MapMarkersPage() {
               </AlertDescription>
             </Alert>
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-[700px]">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-[900px]">
               {/* 左侧：标注点管理 */}
               <Card className="lg:col-span-1 border-2 h-full">
                 <CardHeader>
