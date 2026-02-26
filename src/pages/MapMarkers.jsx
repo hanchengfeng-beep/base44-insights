@@ -42,17 +42,17 @@ const poiIcon = L.divIcon({
 });
 
 const defaultMarkers = [
-  { id: 1, name: '上海市中心', lat: 31.2304, lng: 121.4737, description: '人民广场', district: '黄浦区' },
-  { id: 2, name: '上海浦东1', lat: 31.2380, lng: 121.4850, description: '浦东新区', district: '浦东' },
-  { id: 3, name: '上海浦东2', lat: 31.2450, lng: 121.4920, description: '陆家嘴', district: '浦东' },
-  { id: 4, name: '上海虹口', lat: 31.2600, lng: 121.5050, description: '虹口区', district: '虹口' },
-  { id: 5, name: '上海静安', lat: 31.2250, lng: 121.4600, description: '静安寺', district: '静安' },
-  { id: 6, name: '上海徐汇1', lat: 31.1950, lng: 121.4500, description: '徐家汇', district: '徐汇' },
-  { id: 7, name: '上海徐汇2', lat: 31.1850, lng: 121.4450, description: '衡山路', district: '徐汇' },
-  { id: 8, name: '上海闵行', lat: 31.1750, lng: 121.5150, description: '闵行区', district: '闵行' },
-  { id: 9, name: '上海浦西', lat: 31.2150, lng: 121.4400, description: '黄浦江西', district: '黄浦区' },
-  { id: 10, name: '上海杨浦', lat: 31.2750, lng: 121.5200, description: '杨浦区', district: '杨浦' },
-  { id: 11, name: '北京', lat: 39.9042, lng: 116.4074, description: '中国首都', district: '北京' },
+  { id: 1, name: '上海市中心', lat: 31.2304, lng: 121.4737, description: '人民广场' },
+  { id: 2, name: '上海浦东1', lat: 31.2380, lng: 121.4850, description: '浦东新区' },
+  { id: 3, name: '上海浦东2', lat: 31.2450, lng: 121.4920, description: '陆家嘴' },
+  { id: 4, name: '上海虹口', lat: 31.2600, lng: 121.5050, description: '虹口区' },
+  { id: 5, name: '上海静安', lat: 31.2250, lng: 121.4600, description: '静安寺' },
+  { id: 6, name: '上海徐汇1', lat: 31.1950, lng: 121.4500, description: '徐家汇' },
+  { id: 7, name: '上海徐汇2', lat: 31.1850, lng: 121.4450, description: '衡山路' },
+  { id: 8, name: '上海闵行', lat: 31.1750, lng: 121.5150, description: '闵行区' },
+  { id: 9, name: '上海浦西', lat: 31.2150, lng: 121.4400, description: '黄浦江西' },
+  { id: 10, name: '上海杨浦', lat: 31.2750, lng: 121.5200, description: '杨浦区' },
+  { id: 11, name: '北京', lat: 39.9042, lng: 116.4074, description: '中国首都' },
 ];
 
 // 计算两点距离（km）
@@ -67,54 +67,36 @@ const calculateDistance = (lat1, lng1, lat2, lng2) => {
   return R * c;
 };
 
-// 聚类算法 - 先按区域分组，再按距离聚类
+// 聚类算法
 const clusterMarkers = (markersToCluster, clusterRadius) => {
   console.log('%c【clusterMarkers 函数执行】', 'color: green; font-weight: bold');
   console.log('📍 输入标注点数:', markersToCluster.length);
   console.log('📏 聚类半径:', clusterRadius, 'km');
   
-  // 第一步：按区域分组
-  const districtGroups = {};
-  markersToCluster.forEach(marker => {
-    const district = marker.district || '未分类';
-    if (!districtGroups[district]) {
-      districtGroups[district] = [];
-    }
-    districtGroups[district].push(marker);
-  });
-  
-  console.log('📍 按区域分组:', Object.keys(districtGroups).length, '个区域');
-  
-  // 第二步：在每个区域内部进行距离聚类
   const clusters = [];
-  Object.entries(districtGroups).forEach(([district, districtMarkers]) => {
-    console.log(`  区域 "${district}"：${districtMarkers.length} 个点`);
-    
-    const visited = new Set();
-    
-    districtMarkers.forEach((marker, idx) => {
-      if (visited.has(idx)) return;
+  const visited = new Set();
 
-      const cluster = [marker];
-      visited.add(idx);
+  markersToCluster.forEach((marker, idx) => {
+    if (visited.has(idx)) return;
 
-      districtMarkers.forEach((otherMarker, otherIdx) => {
-        if (!visited.has(otherIdx)) {
-          const distance = calculateDistance(marker.lat, marker.lng, otherMarker.lat, otherMarker.lng);
-          if (distance < clusterRadius) {
-            cluster.push(otherMarker);
-            visited.add(otherIdx);
-          }
+    const cluster = [marker];
+    visited.add(idx);
+
+    markersToCluster.forEach((otherMarker, otherIdx) => {
+      if (!visited.has(otherIdx)) {
+        const distance = calculateDistance(marker.lat, marker.lng, otherMarker.lat, otherMarker.lng);
+        if (distance < clusterRadius) {
+          cluster.push(otherMarker);
+          visited.add(otherIdx);
         }
-      });
+      }
+    });
 
-      clusters.push({
-        count: cluster.length,
-        lat: cluster.reduce((sum, m) => sum + m.lat, 0) / cluster.length,
-        lng: cluster.reduce((sum, m) => sum + m.lng, 0) / cluster.length,
-        markers: cluster,
-        district: district
-      });
+    clusters.push({
+      count: cluster.length,
+      lat: cluster.reduce((sum, m) => sum + m.lat, 0) / cluster.length,
+      lng: cluster.reduce((sum, m) => sum + m.lng, 0) / cluster.length,
+      markers: cluster
     });
   });
 
@@ -233,7 +215,7 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
           <Marker key={`cluster-${idx}`} position={[cluster.lat, cluster.lng]} icon={clusterIcon}>
             <Popup>
               <div className="text-sm">
-                <div className="font-bold text-slate-900">{cluster.district} - {cluster.count}个点</div>
+                <div className="font-bold text-slate-900">聚合点 ({cluster.count}个)</div>
                 <div className="text-slate-600 text-xs mt-2 space-y-1">
                   {cluster.markers.map(m => (
                     <div key={m.id}>{m.name}</div>
@@ -251,7 +233,6 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
                   {cluster.markers[0].lat.toFixed(4)}, {cluster.markers[0].lng.toFixed(4)}
                 </div>
                 <div className="text-slate-600 text-xs mt-1">{cluster.markers[0].description}</div>
-                <div className="text-slate-500 text-xs mt-1 font-medium">{cluster.markers[0].district}</div>
               </div>
             </Popup>
           </Marker>
