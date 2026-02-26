@@ -184,7 +184,8 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
   return (
     <>
       <TileLayer
-        url="https://webrd{1,2,3,4}.is.autonavi.com/appmaptile?z={z}&x={x}&y={y}&style=7"
+        url="http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}"
+        subdomains="1234"
         attribution='&copy; 高德地图'
         maxZoom={19}
       />
