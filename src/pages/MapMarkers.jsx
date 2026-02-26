@@ -178,19 +178,40 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
         </Marker>
       )}
 
-      {/* 标注点 - 红色图标 */}
-      {visibleMarkers.map((marker) => (
-        <Marker key={marker.id} position={[marker.lat, marker.lng]} icon={poiIcon}>
-          <Popup>
-            <div className="text-sm">
-              <div className="font-bold text-slate-900">{marker.name}</div>
-              <div className="text-slate-600 text-xs">
-                {marker.lat.toFixed(4)}, {marker.lng.toFixed(4)}
+      {/* 聚类标记 */}
+      {clusters.map((cluster, idx) => (
+        cluster.count > 1 ? (
+          <Marker key={`cluster-${idx}`} position={[cluster.lat, cluster.lng]} icon={L.divIcon({
+            html: `<div style="background: #3B82F6; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">${cluster.count}</div>`,
+            iconSize: [40, 40],
+            iconAnchor: [20, 20],
+            popupAnchor: [0, -20],
+            className: 'cluster-icon'
+          })}>
+            <Popup>
+              <div className="text-sm">
+                <div className="font-bold text-slate-900">聚合点 ({cluster.count}个)</div>
+                <div className="text-slate-600 text-xs mt-2 space-y-1">
+                  {cluster.markers.map(m => (
+                    <div key={m.id}>{m.name}</div>
+                  ))}
+                </div>
               </div>
-              <div className="text-slate-600 text-xs mt-1">{marker.description}</div>
-            </div>
-          </Popup>
-        </Marker>
+            </Popup>
+          </Marker>
+        ) : (
+          <Marker key={`marker-${cluster.markers[0].id}`} position={[cluster.lat, cluster.lng]} icon={poiIcon}>
+            <Popup>
+              <div className="text-sm">
+                <div className="font-bold text-slate-900">{cluster.markers[0].name}</div>
+                <div className="text-slate-600 text-xs">
+                  {cluster.markers[0].lat.toFixed(4)}, {cluster.markers[0].lng.toFixed(4)}
+                </div>
+                <div className="text-slate-600 text-xs mt-1">{cluster.markers[0].description}</div>
+              </div>
+            </Popup>
+          </Marker>
+        )
       ))}
     </>
   );
