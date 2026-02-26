@@ -184,8 +184,8 @@ function MapContent({ userLocation, clusters, visibleMarkers, zoomLevel, setZoom
   return (
     <>
       <TileLayer
-        url="https://rt{0,1,2,3}.map.gtimg.com/tile?z={z}&x={x}&y={y}"
-        attribution='&copy; 腾讯地图'
+        url="https://webrd{1,2,3,4}.is.autonavi.com/appmaptile?z={z}&x={x}&y={y}&style=7"
+        attribution='&copy; 高德地图'
         maxZoom={19}
       />
       
