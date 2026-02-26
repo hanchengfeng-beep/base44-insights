@@ -276,7 +276,7 @@ export default function MapMarkersPage() {
 
   React.useEffect(() => {
     // 根据缩放级别动态聚类
-    const clusterRadius = Math.max(0.2, 150 / Math.pow(2, zoomLevel - 3)); // km
+    const clusterRadius = Math.max(0.2, 250 / Math.pow(2, zoomLevel - 3)); // km
     console.log('%c【聚类计算】', 'color: orange; font-weight: bold');
     console.log('🔍 当前缩放级别:', zoomLevel);
     console.log('📏 聚类半径:', clusterRadius.toFixed(2), 'km');
