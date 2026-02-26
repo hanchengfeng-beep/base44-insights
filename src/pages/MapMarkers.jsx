@@ -271,16 +271,27 @@ export default function MapMarkersPage() {
                       size="sm" 
                       variant="outline"
                       onClick={() => {
+                        console.log('刷新按钮被点击');
+                        console.log('window.mapInstance:', window.mapInstance);
+                        console.log('userLocation:', userLocation);
                         if (window.mapInstance) {
+                          console.log('invalidateSize 被调用');
                           window.mapInstance.invalidateSize();
                           // 缩放到10KM范围
                           if (userLocation) {
+                            console.log('开始缩放到10KM范围');
                             const bounds = L.latLngBounds(
                               L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
                               L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
                             );
+                            console.log('bounds:', bounds);
                             window.mapInstance.fitBounds(bounds);
+                            console.log('fitBounds 调用完成');
+                          } else {
+                            console.log('userLocation 为空');
                           }
+                        } else {
+                          console.log('window.mapInstance 不存在');
                         }
                       }}
                     >
