@@ -24,22 +24,83 @@ const defaultMarkers = [
   { id: 5, name: '南京', lat: 32.0603, lng: 118.7969, description: '六朝古都' },
 ];
 
+// 计算两点距离（km）
+const calculateDistance = (lat1, lng1, lat2, lng2) => {
+  const R = 6371; // 地球半径（km）
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng/2) * Math.sin(dLng/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+};
+
+// 聚类算法
+const clusterMarkers = (markersToCluster, clusterRadius) => {
+  const clusters = [];
+  const visited = new Set();
+
+  markersToCluster.forEach((marker, idx) => {
+    if (visited.has(idx)) return;
+
+    const cluster = [marker];
+    visited.add(idx);
+
+    markersToCluster.forEach((otherMarker, otherIdx) => {
+      if (!visited.has(otherIdx)) {
+        const distance = calculateDistance(marker.lat, marker.lng, otherMarker.lat, otherMarker.lng);
+        if (distance < clusterRadius) {
+          cluster.push(otherMarker);
+          visited.add(otherIdx);
+        }
+      }
+    });
+
+    clusters.push({
+      count: cluster.length,
+      lat: cluster.reduce((sum, m) => sum + m.lat, 0) / cluster.length,
+      lng: cluster.reduce((sum, m) => sum + m.lng, 0) / cluster.length,
+      markers: cluster
+    });
+  });
+
+  return clusters;
+};
+
 export default function MapMarkersPage() {
   const [markers, setMarkers] = useState(defaultMarkers);
   const [newMarker, setNewMarker] = useState({ name: '', lat: '', lng: '', description: '' });
+  const [userLocation, setUserLocation] = useState(null);
+  const [zoomLevel, setZoomLevel] = useState(4);
+  const [clusters, setClusters] = useState([]);
+
+  React.useEffect(() => {
+    // 获取用户位置
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+        },
+        (error) => console.log('位置获取失败:', error)
+      );
+    }
+  }, []);
+
+  React.useEffect(() => {
+    // 根据缩放级别动态聚类
+    const clusterRadius = Math.max(0.5, 20 / Math.pow(2, zoomLevel)); // km
+    const clustered = clusterMarkers(markers, clusterRadius);
+    setClusters(clustered);
+  }, [markers, zoomLevel]);
 
   React.useEffect(() => {
     // 检查初始尺寸
     setTimeout(() => {
-      const mapContainer = document.querySelector('.leaflet-container');
-      if (mapContainer) {
-        console.log('初始 MapContainer 大小:', mapContainer.offsetWidth, 'x', mapContainer.offsetHeight);
-        // 再次调用 invalidateSize
-        const map = window.mapInstance;
-        if (map) {
-          map.invalidateSize();
-          console.log('已调用 invalidateSize');
-        }
+      const map = window.mapInstance;
+      if (map) {
+        map.invalidateSize();
       }
     }, 100);
   }, []);
