@@ -29,6 +29,25 @@ export default function MapMarkersPage() {
   const [markers, setMarkers] = useState(defaultMarkers);
   const [newMarker, setNewMarker] = useState({ name: '', lat: '', lng: '', description: '' });
 
+  React.useEffect(() => {
+    console.log('MapMarkers 组件已挂载');
+    console.log('默认标注点:', defaultMarkers);
+    console.log('当前标注点:', markers);
+    
+    // 检查 Leaflet CSS 是否已加载
+    const leafletCss = document.querySelector('link[href*="leaflet"]');
+    console.log('Leaflet CSS 是否加载:', !!leafletCss);
+    
+    // 检查 MapContainer 元素
+    setTimeout(() => {
+      const mapContainer = document.querySelector('.leaflet-container');
+      console.log('MapContainer 元素:', mapContainer);
+      if (mapContainer) {
+        console.log('MapContainer 大小:', mapContainer.offsetWidth, 'x', mapContainer.offsetHeight);
+      }
+    }, 500);
+  }, []);
+
   const addMarker = () => {
     if (newMarker.name && newMarker.lat && newMarker.lng) {
       setMarkers([
