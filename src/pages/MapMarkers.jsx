@@ -169,10 +169,10 @@ export default function MapMarkersPage() {
                       style={{ width: '100%', height: '100%' }}
                     >
                       <TileLayer
-                        url="https://rt{s}.map.qq.com/tile?z={z}&x={x}&y={y}&type=vector"
-                        subdomains="0123"
-                        attribution='&copy; 腾讯地图'
-                        crossOrigin="anonymous"
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        subdomains={['a', 'b', 'c']}
+                        attribution='&copy; OpenStreetMap contributors'
+                        maxZoom={19}
                       />
                       {markers.map(marker => (
                         <Marker
