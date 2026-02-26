@@ -141,8 +141,16 @@ export default function MapMarkersPage() {
   React.useEffect(() => {
     // 获取用户位置
     if (navigator.geolocation) {
+      const startTime = Date.now();
+      console.log('⏱️ 开始定位用户位置，时间:', new Date().toLocaleTimeString());
+      
       navigator.geolocation.watchPosition(
         (position) => {
+          const endTime = Date.now();
+          const duration = endTime - startTime;
+          console.log('✅ 位置获取成功！耗时:', duration, 'ms');
+          console.log('📍 坐标:', position.coords.latitude, position.coords.longitude);
+          
           const { latitude, longitude } = position.coords;
           setUserLocation({ lat: latitude, lng: longitude });
           
@@ -155,7 +163,12 @@ export default function MapMarkersPage() {
             mapRef.current.fitBounds(bounds);
           }
         },
-        (error) => console.log('位置获取失败:', error)
+        (error) => {
+          const endTime = Date.now();
+          const duration = endTime - startTime;
+          console.log('❌ 位置获取失败，耗时:', duration, 'ms');
+          console.log('错误代码:', error.code, '错误信息:', error.message);
+        }
       );
     }
   }, []);
