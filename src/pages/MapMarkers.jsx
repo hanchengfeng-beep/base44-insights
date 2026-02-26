@@ -335,31 +335,7 @@ export default function MapMarkersPage() {
                     <Button 
                       size="sm" 
                       variant="outline"
-                      onClick={() => {
-                        console.log('🔄 刷新按钮被点击');
-                        console.log('📍 mapRef.current:', mapRef.current);
-                        console.log('📍 userLocation:', userLocation);
-                        
-                        if (mapRef.current) {
-                          console.log('✅ 地图实例存在，调用 invalidateSize');
-                          mapRef.current.invalidateSize();
-                          
-                          if (userLocation) {
-                            console.log('✅ 用户位置存在，准备缩放');
-                            const bounds = L.latLngBounds(
-                              L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
-                              L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
-                            );
-                            console.log('📊 缩放范围:', bounds);
-                            mapRef.current.fitBounds(bounds);
-                            console.log('✅ fitBounds 调用完成');
-                          } else {
-                            console.log('❌ userLocation 为空');
-                          }
-                        } else {
-                          console.log('❌ 地图实例不存在');
-                        }
-                      }}
+                      onClick={performRefresh}
                     >
                       <RefreshCw className="w-4 h-4 mr-1" />
                       刷新
