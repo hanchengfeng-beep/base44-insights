@@ -119,15 +119,7 @@ export default function MapMarkersPage() {
     setClusters(clustered);
   }, [visibleMarkers, zoomLevel]);
 
-  React.useEffect(() => {
-    // 检查初始尺寸
-    setTimeout(() => {
-      const map = window.mapInstance;
-      if (map) {
-        map.invalidateSize();
-      }
-    }, 100);
-  }, []);
+
 
   const addMarker = () => {
     if (newMarker.name && newMarker.lat && newMarker.lng) {
