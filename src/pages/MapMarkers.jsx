@@ -180,27 +180,31 @@ export default function MapMarkersPage() {
     setClusters(clustered);
   }, [visibleMarkers, zoomLevel]);
 
-  const performRefresh = () => {
+  const performRefresh = React.useCallback(() => {
     console.log('🔄 刷新按钮被点击');
     console.log('📍 mapRef.current:', mapRef.current);
     console.log('📍 userLocation:', userLocation);
+    console.log('点击时间:', new Date().toLocaleTimeString());
     
     if (mapRef.current && userLocation) {
       console.log('✅ 地图实例存在，调用 invalidateSize');
       mapRef.current.invalidateSize();
       
-      console.log('✅ 用户位置存在，准备缩放');
-      const bounds = L.latLngBounds(
-        L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
-        L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
-      );
-      console.log('📊 缩放范围:', bounds);
-      mapRef.current.fitBounds(bounds);
-      console.log('✅ fitBounds 调用完成');
+      // 延迟后执行 fitBounds，确保 DOM 已完全就绪
+      setTimeout(() => {
+        console.log('✅ 用户位置存在，准备缩放');
+        const bounds = L.latLngBounds(
+          L.latLng(userLocation.lat - 0.045, userLocation.lng - 0.045),
+          L.latLng(userLocation.lat + 0.045, userLocation.lng + 0.045)
+        );
+        console.log('📊 缩放范围:', bounds);
+        mapRef.current.fitBounds(bounds);
+        console.log('✅ fitBounds 调用完成');
+      }, 150);
     } else {
       console.log('❌ mapRef.current:', mapRef.current, '| userLocation:', userLocation);
     }
-  };
+  }, [userLocation]);
 
 
 
