@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { MapPin, Plus, Trash2, CheckCircle } from 'lucide-react';
+import { MapPin, Plus, Trash2, CheckCircle, RefreshCw } from 'lucide-react';
 import L from 'leaflet';
 
 // 修复 Leaflet 默认图标问题
