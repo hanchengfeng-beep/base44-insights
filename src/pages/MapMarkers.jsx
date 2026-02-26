@@ -203,13 +203,23 @@ export default function MapMarkersPage() {
 
   React.useEffect(() => {
     // 过滤10KM范围内的标注点
+    console.log('%c[useEffect] 过滤标注点', 'color: cyan');
+    console.log('📌 userLocation:', userLocation);
+    console.log('📍 markers 数量:', markers.length);
+    
     if (userLocation) {
       const filtered = markers.filter(marker => {
         const distance = calculateDistance(userLocation.lat, userLocation.lng, marker.lat, marker.lng);
         return distance <= 10; // 10KM范围
       });
+      console.log('✅ 过滤完成，10KM内的标注点:', filtered.length);
+      filtered.forEach(m => {
+        const distance = calculateDistance(userLocation.lat, userLocation.lng, m.lat, m.lng);
+        console.log(`  - ${m.name}: ${distance.toFixed(2)} km`);
+      });
       setVisibleMarkers(filtered);
     } else {
+      console.log('⚠️ userLocation 未获取，显示所有标注点');
       setVisibleMarkers(markers);
     }
   }, [markers, userLocation]);
