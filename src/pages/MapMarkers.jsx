@@ -165,63 +165,7 @@ export default function MapMarkersPage() {
   const [visibleMarkers, setVisibleMarkers] = useState(defaultMarkers);
   const mapRef = React.useRef(null);
 
-  React.useEffect(() => {
-    // 获取用户位置（一次性，带超时）
-    if (navigator.geolocation) {
-      const startTime = Date.now();
-      console.log('%c开始定位用户位置...', 'color: orange; font-weight: bold');
-      console.log('⏱️ 开始时间:', new Date().toLocaleTimeString());
-      console.log('⏱️ 时间戳:', startTime);
-      
-      let hasResponded = false;
-      
-      // 10秒超时机制
-      const timeoutId = setTimeout(() => {
-        if (!hasResponded) {
-          hasResponded = true;
-          const duration = Date.now() - startTime;
-          console.log('%c⚠️ 定位超时（10秒）', 'color: orange; font-weight: bold; font-size: 12px');
-          console.log('⏱️ 耗时:', duration, 'ms');
-          console.log('📍 使用默认位置: [31.2304, 121.4737]');
-        }
-      }, 10000);
-      
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          if (hasResponded) return; // 避免超时后还收到响应
-          hasResponded = true;
-          clearTimeout(timeoutId);
-          
-          const endTime = Date.now();
-          const duration = endTime - startTime;
-          console.log('%c✅ 位置获取成功！', 'color: green; font-weight: bold; font-size: 12px');
-          console.log('⏱️ 耗时:', duration, 'ms (', (duration / 1000).toFixed(2), '秒)');
-          console.log('📍 纬度:', position.coords.latitude);
-          console.log('📍 经度:', position.coords.longitude);
-          console.log('📍 精度:', position.coords.accuracy, '米');
-          
-          const { latitude, longitude } = position.coords;
-          setUserLocation({ lat: latitude, lng: longitude });
-          console.log('💾 userLocation 已更新');
-        },
-        (error) => {
-          if (hasResponded) return;
-          hasResponded = true;
-          clearTimeout(timeoutId);
-          
-          const endTime = Date.now();
-          const duration = endTime - startTime;
-          console.log('%c❌ 位置获取失败', 'color: red; font-weight: bold; font-size: 12px');
-          console.log('⏱️ 耗时:', duration, 'ms');
-          console.log('错误代码:', error.code);
-          console.log('错误信息:', error.message);
-        },
-        { timeout: 10000, enableHighAccuracy: false }
-      );
-    } else {
-      console.log('❌ navigator.geolocation 不可用');
-    }
-  }, []);
+
 
   React.useEffect(() => {
     // 过滤10KM范围内的标注点
