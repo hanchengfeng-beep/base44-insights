@@ -1,0 +1,46 @@
+{
+  "name": "DemoUser",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string",
+      "description": "\u7528\u6237\u540d"
+    },
+    "avatar": {
+      "type": "string",
+      "description": "\u5934\u50cfURL"
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "bronze",
+        "silver",
+        "gold",
+        "platinum"
+      ],
+      "description": "\u7528\u6237\u7b49\u7ea7"
+    },
+    "city": {
+      "type": "string",
+      "description": "\u6240\u5728\u57ce\u5e02"
+    },
+    "registration_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u6ce8\u518c\u65e5\u671f"
+    },
+    "total_spent": {
+      "type": "number",
+      "description": "\u7d2f\u8ba1\u6d88\u8d39\u91d1\u989d"
+    },
+    "order_count": {
+      "type": "integer",
+      "description": "\u8ba2\u5355\u603b\u6570"
+    }
+  },
+  "required": [
+    "username",
+    "level",
+    "city"
+  ]
+}

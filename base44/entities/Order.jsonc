@@ -1,0 +1,73 @@
+{
+  "name": "Order",
+  "type": "object",
+  "properties": {
+    "order_number": {
+      "type": "string",
+      "description": "\u8ba2\u5355\u53f7"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "\u7528\u6237ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "paid",
+        "shipped",
+        "delivered",
+        "cancelled"
+      ],
+      "description": "\u8ba2\u5355\u72b6\u6001"
+    },
+    "total_amount": {
+      "type": "number",
+      "description": "\u8ba2\u5355\u603b\u91d1\u989d"
+    },
+    "discount": {
+      "type": "number",
+      "description": "\u6298\u6263\u91d1\u989d"
+    },
+    "shipping_city": {
+      "type": "string",
+      "description": "\u6536\u8d27\u57ce\u5e02"
+    },
+    "order_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "\u4e0b\u5355\u65f6\u95f4"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "product_id": {
+            "type": "string"
+          },
+          "product_name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "subtotal": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "\u8ba2\u5355\u5546\u54c1\u5217\u8868"
+    }
+  },
+  "required": [
+    "order_number",
+    "user_id",
+    "status",
+    "total_amount",
+    "order_date"
+  ]
+}

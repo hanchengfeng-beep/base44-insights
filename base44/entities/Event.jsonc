@@ -1,0 +1,44 @@
+{
+  "name": "Event",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "\u7528\u6237ID"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "login",
+        "view_product",
+        "add_to_cart",
+        "place_order",
+        "payment",
+        "logout"
+      ],
+      "description": "\u4e8b\u4ef6\u7c7b\u578b"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "\u4e8b\u4ef6\u53d1\u751f\u65f6\u95f4"
+    },
+    "properties": {
+      "type": "object",
+      "description": "\u4e8b\u4ef6\u5c5e\u6027"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "\u4f1a\u8bddID"
+    },
+    "city": {
+      "type": "string",
+      "description": "\u4e8b\u4ef6\u53d1\u751f\u57ce\u5e02"
+    }
+  },
+  "required": [
+    "user_id",
+    "event_type",
+    "timestamp"
+  ]
+}
